@@ -15,6 +15,6 @@ allprojects {
 2. Add the dependency
 ```groovy
 dependencies {
-	        compile 'com.github.steven0529:LTActionRecyclerAdapter:-SNAPSHOT'
+    compile 'com.github.steven0529:LTARecyclerAdapter:-SNAPSHOT'
 }
 ```
