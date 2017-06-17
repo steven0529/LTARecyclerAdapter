@@ -54,7 +54,7 @@ S is the action button/view viewholder
     */
     @Override
     public ImageLTActionViewHolder renderActionViewHolder(ViewGroup parent) {
-        
+        return null;
     }
     /**
     * Acts as the normal onCreateViewHolder of the RecyclerView.Adapter but renders the LTAItemViewHolder
