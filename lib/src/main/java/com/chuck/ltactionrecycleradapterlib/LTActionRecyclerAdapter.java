@@ -18,8 +18,8 @@ public abstract class LTActionRecyclerAdapter<T, S extends LTActionViewHolder> e
     private List<T> t;
     private ActionPosition actionPosition;
     private int maxItems = -1;
-    private View.OnClickListener itemOnClickListener;
-    private View.OnClickListener actionOnClickListener;
+    private LTActionItemOnClickListener itemOnClickListener;
+    private LTActionOnClickListener actionOnClickListener;
 
     public enum ActionPosition {
         LEADING,
@@ -49,15 +49,26 @@ public abstract class LTActionRecyclerAdapter<T, S extends LTActionViewHolder> e
 
     @Override
     public final void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        final int finalPos = position;
         if (position < t.size() && holder instanceof LTActionItemViewHolder)
             onBindAdaptingRecyclerViewHolder((LTActionItemViewHolder) holder, position);
 
         if (position < t.size() && holder instanceof LTActionItemViewHolder) {
             if (itemOnClickListener != null)
-                holder.itemView.setOnClickListener(itemOnClickListener);
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        itemOnClickListener.onClick(v, finalPos);
+                    }
+                });
         } else {
             if (actionOnClickListener != null)
-                holder.itemView.setOnClickListener(actionOnClickListener);
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        actionOnClickListener.onClick(v, finalPos);
+                    }
+                });
         }
     }
 
@@ -91,19 +102,19 @@ public abstract class LTActionRecyclerAdapter<T, S extends LTActionViewHolder> e
 
     public abstract RecyclerView.ViewHolder renderViewHolder(ViewGroup parent);
 
-    public View.OnClickListener getItemOnClickListener() {
+    public LTActionItemOnClickListener getItemOnClickListener() {
         return itemOnClickListener;
     }
 
-    public void setItemOnClickListener(View.OnClickListener itemOnClickListener) {
+    public void setItemOnClickListener(LTActionItemOnClickListener itemOnClickListener) {
         this.itemOnClickListener = itemOnClickListener;
     }
 
-    public View.OnClickListener getActionOnClickListener() {
+    public LTActionOnClickListener getActionOnClickListener() {
         return actionOnClickListener;
     }
 
-    public void setActionOnClickListener(View.OnClickListener actionOnClickListener) {
+    public void setActionOnClickListener(LTActionOnClickListener actionOnClickListener) {
         this.actionOnClickListener = actionOnClickListener;
     }
 }
