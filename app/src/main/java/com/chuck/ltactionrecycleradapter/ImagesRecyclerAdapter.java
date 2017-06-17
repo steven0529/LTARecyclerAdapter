@@ -23,8 +23,14 @@ public class ImagesRecyclerAdapter extends LTActionRecyclerAdapter<String, Image
     private Context context;
     private List<String> pathsList;
 
-    public ImagesRecyclerAdapter(Context context, List<String> t, int maxItems) {
-        super(t, ActionPosition.TRAILING, maxItems);
+    public ImagesRecyclerAdapter(Context context, List<String> t, ActionPosition actionPosition) {
+        super(t, actionPosition);
+        this.context = context;
+        this.pathsList = t;
+    }
+
+    public ImagesRecyclerAdapter(Context context, List<String> t, int maxItems, ActionPosition actionPosition) {
+        super(t, actionPosition, maxItems);
         this.context = context;
         this.pathsList = t;
     }

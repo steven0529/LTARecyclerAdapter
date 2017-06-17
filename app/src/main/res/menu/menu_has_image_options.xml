@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/camera"
-        android:title="@string/menu_image_option_camera"
+        android:id="@+id/replace_camera"
+        android:title="@string/menu_image_option_replace_camera"
         />
 
     <item
-        android:id="@+id/gallery"
-        android:title="@string/menu_image_option_gallery"
+        android:id="@+id/replace_gallery"
+        android:title="@string/menu_image_option_replace_gallery"
         />
     <item
         android:id="@+id/remove"

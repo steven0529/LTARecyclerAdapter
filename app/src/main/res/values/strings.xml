@@ -1,7 +1,9 @@
 <resources>
-    <string name="app_name">LTActionRecyclerAdapter</string>
+    <string name="app_name">LTARecyclerAdapter</string>
     <string name="menu_image_option_camera">Take a photo</string>
     <string name="menu_image_option_gallery">Select from gallery</string>
+    <string name="menu_image_option_replace_camera">Replace from camera</string>
+    <string name="menu_image_option_replace_gallery">Replace from gallery</string>
     <string name="menu_image_option_remove">Remove image</string>
 
 </resources>

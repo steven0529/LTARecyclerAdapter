@@ -17,6 +17,10 @@ import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.chuck.ltactionrecycleradapterlib.LTActionItemOnClickListener;
+import com.chuck.ltactionrecycleradapterlib.LTActionOnClickListener;
+import com.chuck.ltactionrecycleradapterlib.LTActionRecyclerAdapter;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     private String imageCameraPath;
     private List<String> pathsList;
     private ImagesRecyclerAdapter adapter;
+    private int dataPosition;
+    private boolean replaceImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,18 +46,35 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         setContentView(R.layout.activity_main);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         pathsList = new ArrayList<>();
+
+        // Use any Layout Manager
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
-        adapter = new ImagesRecyclerAdapter(this, pathsList, 3);
-        adapter.setItemOnClickListener(new View.OnClickListener() {
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // set Action poisiton to leading or trailing
+        adapter = new ImagesRecyclerAdapter(this, pathsList,
+                LTActionRecyclerAdapter.ActionPosition.TRAILING);
+
+        // set maximum items or infinite elements
+//        adapter = new ImagesRecyclerAdapter(this, pathsList, 3,
+//                LTActionRecyclerAdapter.ActionPosition.TRAILING);
+
+
+        adapter.setItemOnClickListener(new LTActionItemOnClickListener() {
             @Override
-            public void onClick(View v) {
-                storeImageOnClick(v, R.menu.menu_has_image_options);
+            public void onClick(View view, int position) {
+                dataPosition = position;
+                replaceImage = true;
+                storeImageOnClick(view, R.menu.menu_has_image_options);
             }
         });
-        adapter.setActionOnClickListener(new View.OnClickListener() {
+
+        adapter.setActionOnClickListener(new LTActionOnClickListener() {
             @Override
-            public void onClick(View v) {
-                storeImageOnClick(v, R.menu.menu_add_image_options);
+            public void onClick(View view, int position) {
+                dataPosition = position;
+                replaceImage = false;
+                storeImageOnClick(view, R.menu.menu_add_image_options);
             }
         });
         recyclerView.setAdapter(adapter);
@@ -109,11 +132,17 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         if (requestCode == REQUEST_CODE_GALLERY
                 && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
-            String stringSelcted = selectedImage.toString();
-            pathsList.add(stringSelcted);
+            String stringSelected = selectedImage.toString();
+            if (replaceImage)
+                pathsList.set(dataPosition, stringSelected);
+            else
+                pathsList.add(stringSelected);
             adapter.notifyDataSetChanged();
         } else if (requestCode == REQUEST_CODE_CAMERA && resultCode == RESULT_OK) {
-            pathsList.add(imageCameraPath);
+            if (replaceImage)
+                pathsList.set(dataPosition, imageCameraPath);
+            else
+                pathsList.add(imageCameraPath);
             adapter.notifyDataSetChanged();
         }
     }
@@ -135,12 +164,14 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.gallery) {
+        if (id == R.id.gallery || id == R.id.replace_gallery) {
             throwGalleryIntent();
-        } else if (id == R.id.camera) {
+        } else if (id == R.id.camera || id == R.id.replace_camera) {
             throwCameraIntent();
         } else if (id == R.id.remove) {
-            Toast.makeText(this, "Remove image", Toast.LENGTH_SHORT).show();
+            pathsList.remove(dataPosition);
+            adapter.notifyItemRemoved(dataPosition);
+            Toast.makeText(this, "Image Removed", Toast.LENGTH_SHORT).show();
         }
         return true;
     }
