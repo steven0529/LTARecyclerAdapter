@@ -7,11 +7,11 @@ import android.view.View;
  * Created by steven on 6/14/17.
  */
 
-public abstract  class LTActionItemViewHolder extends RecyclerView.ViewHolder {
+public abstract  class LTAItemViewHolder extends RecyclerView.ViewHolder {
 
     private View.OnClickListener ltActionItemOnClickListener;
 
-    public LTActionItemViewHolder(View itemView) {
+    public LTAItemViewHolder(View itemView) {
         super(itemView);
     }
 

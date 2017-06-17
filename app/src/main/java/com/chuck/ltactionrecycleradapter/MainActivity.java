@@ -17,9 +17,9 @@ import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-import com.chuck.ltactionrecycleradapterlib.LTActionItemOnClickListener;
+import com.chuck.ltactionrecycleradapterlib.LTAItemOnClickListener;
 import com.chuck.ltactionrecycleradapterlib.LTActionOnClickListener;
-import com.chuck.ltactionrecycleradapterlib.LTActionRecyclerAdapter;
+import com.chuck.ltactionrecycleradapterlib.LTARecyclerAdapter;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,14 +53,14 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
         // set Action poisiton to leading or trailing
         adapter = new ImagesRecyclerAdapter(this, pathsList,
-                LTActionRecyclerAdapter.ActionPosition.TRAILING);
+                LTARecyclerAdapter.ActionPosition.TRAILING);
 
         // set maximum items or infinite elements
 //        adapter = new ImagesRecyclerAdapter(this, pathsList, 3,
 //                LTActionRecyclerAdapter.ActionPosition.TRAILING);
 
 
-        adapter.setItemOnClickListener(new LTActionItemOnClickListener() {
+        adapter.setItemOnClickListener(new LTAItemOnClickListener() {
             @Override
             public void onClick(View view, int position) {
                 dataPosition = position;
